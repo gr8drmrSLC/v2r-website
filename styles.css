@@ -259,11 +259,72 @@ main > section:not(.hero) {
 
 footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   gap: 16px;
   padding: 28px clamp(20px, 7vw, 96px);
   color: rgba(255, 255, 255, 0.78);
   background: #11161a;
+}
+
+footer .legal-links {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+}
+
+footer .legal-links a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+
+footer .legal-links a:hover {
+  color: #fff;
+}
+
+.legal-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(140px, 14vw, 168px) clamp(20px, 7vw, 96px) clamp(64px, 8vw, 96px);
+}
+
+.legal-main h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  margin-bottom: 8px;
+}
+
+.legal-main .updated {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+
+.legal-main .draft-notice {
+  padding: 16px 20px;
+  margin-bottom: 40px;
+  background: #fdf6e8;
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.legal-main h2 {
+  font-size: 22px;
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.legal-main p,
+.legal-main li {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.legal-main ul {
+  padding-left: 20px;
 }
 
 @media (max-width: 760px) {
