@@ -1,6 +1,12 @@
-# V2R Website
+# V2ADV Website
 
-This is the local static marketing site for Vision to Reality (V2R).
+This is the local static marketing site for V2ADV (Vision to Advance),
+the current presumptive master brand, formerly Vision to Reality (V2R).
+See `docs/capabilities/entelora-xtci-p2adv-rebranding-living-record.md`
+in `v2r-enterprise-knowledge` for the full naming history. The repository
+and folder are still named `v2r-website`; renaming them is a separate,
+not-yet-made decision.
+
 It is intentionally plain HTML and CSS with no build step, no framework,
 and no package manager.
 
