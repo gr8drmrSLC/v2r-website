@@ -114,6 +114,43 @@
         </p>
       </section>
 
+      <section class="explore" id="explore" aria-label="Explore the objective">
+        <div class="explore-inner">
+          <p class="eyebrow">Before You Begin</p>
+          <h2>Is the goal already clear, or still taking shape?</h2>
+          <p class="explore-lead">
+            Most objectives start somewhere between a rough idea and a fully
+            scoped plan. Neither end is a wrong place to start Discovery from.
+          </p>
+
+          <div class="explore-widget">
+            <label for="clarityRange">Move between the two</label>
+            <input id="clarityRange" type="range" min="0" max="100" value="50" aria-describedby="clarityResult">
+            <div class="explore-range-labels"><span>Just an idea</span><span>Fully scoped plan</span></div>
+            <p class="explore-result" id="clarityResult" aria-live="polite">A real objective exists, though the path to it is still open.</p>
+          </div>
+
+          <div class="explore-widget">
+            <p class="explore-widget-label">Which of these feels relevant to the objective right now?</p>
+            <div class="explore-checks" id="capabilityChecks">
+              <label class="explore-check"><input type="checkbox" value="marketing"><span>Reaching more of the right people</span></label>
+              <label class="explore-check"><input type="checkbox" value="software"><span>Software or a system that does not exist yet</span></label>
+              <label class="explore-check"><input type="checkbox" value="automation"><span>Work that is repeated by hand today</span></label>
+              <label class="explore-check"><input type="checkbox" value="analytics"><span>Not knowing what is actually working</span></label>
+              <label class="explore-check"><input type="checkbox" value="operational"><span>A process that has outgrown how it runs today</span></label>
+              <label class="explore-check"><input type="checkbox" value="robotics"><span>A physical, hands-on, or hardware bottleneck</span></label>
+            </div>
+            <p class="explore-result" id="capabilityResult" aria-live="polite">Select what applies to see which capabilities likely matter.</p>
+          </div>
+
+          <div class="explore-widget">
+            <label for="progressNote" class="explore-widget-label">In one sentence, what would meaningful progress look like six months from now?</label>
+            <textarea id="progressNote" placeholder="Write it in your own words..."></textarea>
+            <p class="explore-save-note">Saved only in this browser. Bring it along to whichever way of beginning fits below.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="intro" id="apply">
         <div>
           <p class="eyebrow">Start Here</p>
@@ -184,5 +221,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="assets/globe.js"></script>
+    <script src="assets/explore.js"></script>
   </body>
 </html>
