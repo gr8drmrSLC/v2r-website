@@ -300,16 +300,6 @@ footer .legal-links a:hover {
   margin-bottom: 40px;
 }
 
-.legal-main .draft-notice {
-  padding: 16px 20px;
-  margin-bottom: 40px;
-  background: #fdf6e8;
-  border: 1px solid var(--gold);
-  border-radius: 6px;
-  color: var(--ink);
-  font-size: 15px;
-}
-
 .legal-main h2 {
   font-size: 22px;
   margin-top: 40px;
