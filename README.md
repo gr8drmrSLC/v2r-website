@@ -36,11 +36,11 @@ Then visit `http://localhost:8000`.
 
 ## Publishing Status
 
-This repository has a real GitHub remote (`gr8drmrSLC/v2r-website`, private)
-and is pushed, but GitHub Pages is not yet enabled (confirmed via the
-GitHub API, 2026-08-24) and no domain is connected. GitHub Pages generally
-requires a public repo on the free tier; repo visibility needs a decision
-before Pages can be enabled.
+**Live now, 2026-09-05**: this repository is public (`gr8drmrSLC/v2r-website`)
+and GitHub Pages is enabled, serving from `master` at the repository root.
+The default GitHub Pages URL, `https://gr8drmrslc.github.io/v2r-website/`,
+is confirmed live (HTTP 200, page title reads "Vision to Advance | V2ADV").
+No custom domain is connected yet.
 
 **Domain updated 2026-09-05.** `v2r.com` was never actually available to
 register (confirmed taken during the 2026-08-24 domain search) and is now
@@ -48,18 +48,20 @@ moot regardless: the company rebrand moved first through ENTELORA/XTCI/P2ADV
 and then to **V2ADV** ("Vision to Advance"), the current presumptive master
 brand. The founder has already personally secured `v2adv.com` (primary),
 `v2adv.ai` (defensive/future-use), and `visiontoadvance.com`
-(full-expression/defensive) as pre-formation assets. Full naming history:
+(full-expression/defensive) as pre-formation assets, with `visiontoadvance.ai`
+expected shortly to complete the set. Full naming history:
 `docs/capabilities/entelora-xtci-p2adv-rebranding-living-record.md` in
 `v2r-enterprise-knowledge`.
 
 Cloudflare in front of GitHub Pages for DNS, CDN, and WAF remains the
-recommendation. Full rollout sequence, using `v2adv.com` in place of the
-retired `v2r.com` reference: decide repo visibility, enable GitHub Pages,
-move `v2adv.com`'s nameservers to Cloudflare, point Cloudflare at GitHub
-Pages, enable Cloudflare Email Routing for `contact@v2adv.com`. None of
-this has been executed yet; the domain is bought, not yet pointed at
-anything. See `docs/future/future-interfaces-register.md` in
-`v2r-enterprise-knowledge` for the tracked open item this resolves.
+recommendation. Remaining rollout sequence, **blocked on a Cloudflare login
+the founder can only do at the laptop (as of 2026-09-05, remote until the
+afternoon of 2026-09-06)**: move `v2adv.com`'s nameservers to Cloudflare,
+point Cloudflare at GitHub Pages, enable Cloudflare Email Routing for
+`contact@v2adv.com`, and set up redirects from `v2adv.ai`,
+`visiontoadvance.com`, and `visiontoadvance.ai` to the primary domain. See
+`docs/future/future-interfaces-register.md` in `v2r-enterprise-knowledge`
+for the tracked open item this resolves.
 
 **Forms, not yet built here.** This site has no contact or objective-intake
 form yet (see "Legal Pages" below). When one is added, the proven,
