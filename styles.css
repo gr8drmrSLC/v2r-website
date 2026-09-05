@@ -77,14 +77,20 @@ nav a:hover {
   overflow: hidden;
   color: #fff;
   padding: 112px clamp(20px, 7vw, 96px) 84px;
+  background:
+    radial-gradient(ellipse at 78% 50%, rgba(47, 184, 232, 0.22), transparent 60%),
+    var(--charcoal);
 }
 
-.hero img {
+.hero canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;
+  filter:
+    drop-shadow(0 0 10px rgba(95, 224, 255, 0.55))
+    drop-shadow(0 0 26px rgba(47, 184, 232, 0.35));
 }
 
 .hero-overlay {

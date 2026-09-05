@@ -23,7 +23,7 @@
 
     <main id="top">
       <section class="hero" aria-label="Vision to Advance">
-        <img src="assets/hero-systems-workspace.png" alt="A modern worktable with planning materials, dashboards, and organized workflow documents.">
+        <canvas id="globe-canvas" aria-hidden="true"></canvas>
         <div class="hero-overlay"></div>
         <div class="hero-content">
           <p class="eyebrow">Intelligent Business Systems</p>
@@ -63,8 +63,11 @@
           <h3>Adaptive Capabilities</h3>
           <p>
             V2ADV uses marketing, software, automation, research, content,
-            analytics, operational improvement, training, or other capabilities
-            as each objective requires.
+            analytics, operational improvement, training, robotics and
+            automation-hardware sourcing, or other capabilities as each
+            objective requires. For a physical robotics or automation-hardware
+            build, V2ADV connects the client to a specialized partner and
+            manages that relationship as part of the engagement.
           </p>
         </article>
         <article>
@@ -178,5 +181,8 @@
         <a href="cookies.html">Cookies Policy</a>
       </nav>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="assets/globe.js"></script>
   </body>
 </html>
