@@ -1,0 +1,71 @@
+name: Cloudflare cache purge
+
+# GitHub Pages (legacy build, master branch, root path -- see repo
+# Settings -> Pages) republishes on every push to master. This purges
+# Cloudflare's edge cache right after, so a deploy that overwrites an
+# existing asset in place doesn't sit behind a stale edge copy on top of
+# per-file "?v=" query-string bumps. See TODO.md and
+# docs/capabilities/cloudflare-and-twilio-infrastructure-notes.md in
+# v2r-enterprise-knowledge ("Cloudflare Cache -- Two Layers, Both Must Be
+# Purged") for the full background.
+#
+# No-ops cleanly (does not fail the workflow) until both
+# CF_CACHE_PURGE_TOKEN and CF_ZONE_ID exist as repository secrets --
+# both require v2adv.com to first be a Cloudflare zone, not yet true as
+# of 2026-09-06. Once it is:
+#   1. Cloudflare dashboard -> the v2adv.com zone -> Overview -> copy the
+#      Zone ID from the right sidebar.
+#   2. Cloudflare dashboard -> My Profile -> API Tokens -> "Cache Purge"
+#      template, scoped to the v2adv.com zone -> copy the generated
+#      token (shown once).
+#   3. This repo's Settings -> Secrets and variables -> Actions -> New
+#      repository secret, twice: CF_ZONE_ID and CF_CACHE_PURGE_TOKEN.
+# Nothing else needs to change; the next push to master will start
+# purging automatically.
+
+on:
+  push:
+    branches: ["master"]
+
+permissions:
+  contents: read
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge Cloudflare edge cache
+        env:
+          CF_CACHE_PURGE_TOKEN: ${{ secrets.CF_CACHE_PURGE_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+        run: |
+          set -eu
+          if [ -z "${CF_CACHE_PURGE_TOKEN:-}" ] || [ -z "${CF_ZONE_ID:-}" ]; then
+            echo "CF_CACHE_PURGE_TOKEN and/or CF_ZONE_ID not set as repository secrets yet; skipping purge. See TODO.md."
+            exit 0
+          fi
+
+          RESPONSE=$(curl -sS -w '\n%{http_code}' -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CF_CACHE_PURGE_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything": true}')
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          echo "$BODY"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Cloudflare purge_cache returned HTTP $HTTP_CODE"
+            exit 1
+          fi
+
+          case "$BODY" in
+            *'"success":true'*)
+              echo "Cloudflare edge cache purged for zone ${CF_ZONE_ID}."
+              ;;
+            *)
+              echo "::error::Cloudflare purge_cache reported failure: $BODY"
+              exit 1
+              ;;
+          esac
