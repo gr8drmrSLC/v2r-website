@@ -49,30 +49,35 @@ edge certificate secures visitors in the meantime. Full naming history:
 **Site structure and design rationale**: `docs/capabilities/
 client-intake-and-discovery-workflow.md` in `v2r-enterprise-knowledge`
 (EPIC-004 Story 31) documents why the homepage looks the way it does:
-the interactive objective-clarity exercise, the three "Get Started"
-paths (written intake, the AI Discovery Interview, and a scheduled
-call) and each one's individual purpose, the value-based pricing
-copy's basis in `financial-philosophy.md`, and the neon network-globe
-hero's tie to the robotics/automation-hardware sourcing capability
-added the same session. Not duplicated here; that document is the
-source of truth for the "why."
+the interactive objective-clarity exercise, the gated client-profile
+workflow (2026-09-06 redesign, replacing an earlier static three-card
+"Get Started" layout), the value-based pricing copy's basis in
+`financial-philosophy.md`, and the neon network-globe hero's tie to the
+robotics/automation-hardware sourcing capability added the same session.
+Not duplicated here; that document is the source of truth for the "why."
 
-**Forms.** The written-intake and scheduled-call paths currently route
-to `contact@v2adv.com` as an honest interim channel rather than a
-half-built form. When a real self-service form is built, the proven,
-portfolio-wide pattern is a dedicated Cloudflare Worker backed by a KV
-namespace, Cloudflare Turnstile for bot protection, and Resend for email
-delivery into the same Cloudflare Email Routing inbox, documented in
-full in `docs/capabilities/cloudflare-and-twilio-infrastructure-notes.md`
-("Cloudflare Workers: the Contact Form Pattern") in `v2r-enterprise-knowledge`.
-Not a new design; the same mechanism already proven across every WordPress
-site in the portfolio.
+**Get Started, 2026-09-06 redesign.** A persistent floating entry point
+(`assets/entry-widget.js`, fixed trigger + expandable panel, modeled on
+`howtoplaypickleball-seo`'s real, live floating chat widget's interaction
+shape, restyled to V2ADV's own palette) replaces the old static
+three-card section. It is purely static in this repository — no
+`fetch()`, no Cloudflare Turnstile here — with two plain links
+("Create Your Profile," "Log In") into `v2r-platform`'s own pages
+(currently a placeholder `app.v2adv.com` domain, to be swapped once real
+deployment infrastructure exists). The actual profile creation, login,
+discovery-path selection, online questionnaire, call-booking page, and
+client dashboard are all served by `v2r-platform` itself, same-origin
+Jinja2 pages, not by this repository — see that repository's own
+`PROJECT_STATUS.md` and `DECISIONS.md` (2026-09-06 entries) for real
+build status. The ten-minute call-cancellation policy lives only on that
+platform's booking page now, not on this homepage.
 
-**The AI Discovery Interview** ("Talk It Through") is under active build
-in the separate `v2r-platform` repository, not this one — see that
-repository's own `PROJECT_STATUS.md` and `DECISIONS.md` for real build
-status. The homepage currently describes this path as in development
-rather than linking to it, since no real model, voice, or public
+**The AI Discovery Interview** ("Talk It Through," one of the three
+paths reachable after logging in) is under active build in the separate
+`v2r-platform` repository, not this one — see that repository's own
+`PROJECT_STATUS.md` and `DECISIONS.md` for real build status. Its
+frontend now exists (`app/templates/interview/session.html`), driven by
+the stub dialogue provider only; no real model, voice, or public
 deployment exists yet.
 
 ## Legal Pages

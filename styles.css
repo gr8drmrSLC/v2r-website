@@ -494,3 +494,118 @@ footer .legal-links a:hover {
     flex-direction: column;
   }
 }
+
+/* Persistent entry point — fixed trigger + expandable panel, the same
+   interaction shape as howtoplaypickleball-seo's real floating chat
+   widget, restyled to V2ADV's own palette. Purely static: no fetch, no
+   Turnstile in this repo. */
+#v2adv-entry-trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#v2adv-entry-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--charcoal);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#v2adv-entry-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.34);
+}
+
+#v2adv-entry-label {
+  background: var(--panel);
+  color: var(--charcoal);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--charcoal);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+#v2adv-entry-trigger.open #v2adv-entry-label {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#v2adv-entry-panel {
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  z-index: 41;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background: var(--panel);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.24);
+  padding: 20px;
+  display: none;
+}
+
+#v2adv-entry-panel.open {
+  display: block;
+}
+
+#v2adv-entry-panel h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: var(--charcoal);
+}
+
+#v2adv-entry-panel p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+#v2adv-entry-panel .entry-actions {
+  display: grid;
+  gap: 8px;
+}
+
+#v2adv-entry-panel .entry-actions a {
+  display: block;
+  text-align: center;
+  padding: 10px 14px;
+  border-radius: 7px;
+  font-size: 13.5px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+#v2adv-entry-panel .entry-actions a.primary {
+  background: var(--teal);
+  color: #fff;
+}
+
+#v2adv-entry-panel .entry-actions a.secondary {
+  border: 1px solid var(--teal);
+  color: var(--teal);
+}
+
+@media (max-width: 420px) {
+  #v2adv-entry-panel { right: 8px; left: 8px; width: auto; bottom: 92px; }
+  #v2adv-entry-label { display: none; }
+}

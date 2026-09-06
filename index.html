@@ -27,7 +27,7 @@
         <a href="#work">What V2ADV Does</a>
         <a href="#method">Method</a>
         <a href="#control">Client Control</a>
-        <a href="#apply">Get Started</a>
+        <a href="#" data-v2adv-entry-trigger>Get Started</a>
       </nav>
     </header>
 
@@ -164,48 +164,6 @@
         </div>
       </section>
 
-      <section class="intro" id="apply">
-        <div>
-          <p class="eyebrow">Start Here</p>
-          <h2>V2ADV models the objective before any work begins.</h2>
-        </div>
-        <p>
-          Every engagement starts with a clear model of the objective, the
-          client's current position, and the path between them. A prospective
-          client can begin that process in one of three ways.
-        </p>
-      </section>
-
-      <section class="focus-grid" aria-label="Ways to begin">
-        <article>
-          <span class="marker"></span>
-          <h3>Share the Objective</h3>
-          <p>
-            A structured intake gathers the organization, the objective, and
-            the current starting position. Email contact@v2adv.com to begin.
-            V2ADV is building a self-service version of this same intake.
-          </p>
-        </article>
-        <article>
-          <span class="marker red"></span>
-          <h3>Talk It Through</h3>
-          <p>
-            A live, real-time conversation that helps a prospective client
-            define the objective in more depth is in development. V2ADV plans
-            to offer it alongside the written intake once it is ready.
-          </p>
-        </article>
-        <article>
-          <span class="marker gold"></span>
-          <h3>Schedule a Call</h3>
-          <p>
-            V2ADV arranges a direct call with the founder by email until its
-            own scheduling system is live. A call beginning more than ten
-            minutes past its set time is canceled and rescheduled.
-          </p>
-        </article>
-      </section>
-
       <section class="control" aria-label="Pricing">
         <div>
           <p class="eyebrow">Value-Based Pricing</p>
@@ -232,8 +190,26 @@
       </nav>
     </footer>
 
+    <div id="v2adv-entry-panel" role="dialog" aria-label="Begin with V2ADV">
+      <h3>Begin with V2ADV</h3>
+      <p>
+        V2ADV is currently accepting new client applications for
+        consideration. Create a profile to start discovery, or log back in
+        to continue where you left off.
+      </p>
+      <div class="entry-actions">
+        <a class="primary" href="https://app.v2adv.com/account/register">Create Your Profile</a>
+        <a class="secondary" href="https://app.v2adv.com/account/login">Log In</a>
+      </div>
+    </div>
+    <div id="v2adv-entry-trigger">
+      <div id="v2adv-entry-label">Get Started</div>
+      <button id="v2adv-entry-btn" aria-label="Begin with V2ADV" aria-expanded="false">V</button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="assets/globe.js"></script>
     <script src="assets/explore.js"></script>
+    <script src="assets/entry-widget.js"></script>
   </body>
 </html>
