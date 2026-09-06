@@ -37,10 +37,27 @@
   });
   group.add(new THREE.LineSegments(wireGeo, wireMat));
 
+  function makeGlowSprite() {
+    var size = 128;
+    var c = document.createElement('canvas');
+    c.width = c.height = size;
+    var ctx = c.getContext('2d');
+    var g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.25, 'rgba(210,245,255,0.95)');
+    g.addColorStop(0.6, 'rgba(0,195,255,0.45)');
+    g.addColorStop(1, 'rgba(0,195,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    var tex = new THREE.CanvasTexture(c);
+    tex.needsUpdate = true;
+    return tex;
+  }
+
   var nodeGeo = new THREE.BufferGeometry().setFromPoints(nodePoints);
   var nodeMat = new THREE.PointsMaterial({
-    color: 0x00c3ff, size: 0.13, transparent: true, opacity: 0.98,
-    blending: THREE.AdditiveBlending, depthWrite: false
+    map: makeGlowSprite(), color: 0x00c3ff, size: 0.26, transparent: true,
+    opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false
   });
   group.add(new THREE.Points(nodeGeo, nodeMat));
 
