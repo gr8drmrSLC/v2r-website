@@ -1,0 +1,3 @@
+# TODO — v2r-website
+
+- **Create a Cloudflare `CF_CACHE_PURGE_TOKEN` for v2adv.com's zone.** Founder said "I will do this later" (2026-09-05). Cloudflare dashboard → Account → API Tokens → "Cache Purge" template, scoped to the v2adv.com zone. Once it exists, wire up a one-call purge (`POST https://api.cloudflare.com/client/v4/zones/{zoneId}/purge_cache`, body `{"purge_everything": true}`) to run after any deploy that overwrites an existing asset in place, rather than relying solely on per-file `?v=` query-string bumps. Full context: `docs/capabilities/cloudflare-and-twilio-infrastructure-notes.md`'s "Cloudflare Cache — Two Layers, Both Must Be Purged" section in `v2r-enterprise-knowledge`.
