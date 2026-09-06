@@ -32,14 +32,14 @@
 
   var wireGeo = new THREE.WireframeGeometry(icoGeo);
   var wireMat = new THREE.LineBasicMaterial({
-    color: 0x3fa0ff, transparent: true, opacity: 0.32,
+    color: 0x1f7aff, transparent: true, opacity: 0.4,
     blending: THREE.AdditiveBlending, depthWrite: false
   });
   group.add(new THREE.LineSegments(wireGeo, wireMat));
 
   var nodeGeo = new THREE.BufferGeometry().setFromPoints(nodePoints);
   var nodeMat = new THREE.PointsMaterial({
-    color: 0x5ad2ff, size: 0.12, transparent: true, opacity: 0.95,
+    color: 0x00c3ff, size: 0.13, transparent: true, opacity: 0.98,
     blending: THREE.AdditiveBlending, depthWrite: false
   });
   group.add(new THREE.Points(nodeGeo, nodeMat));
@@ -51,7 +51,7 @@
     var curve = new THREE.QuadraticBezierCurve3(a, mid, b);
     var geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(48));
     var mat = new THREE.LineBasicMaterial({
-      color: 0x4db8ff, transparent: true, opacity: 0.5,
+      color: 0x14b8ff, transparent: true, opacity: 0.5,
       blending: THREE.AdditiveBlending, depthWrite: false
     });
     var line = new THREE.Line(geo, mat);
@@ -101,7 +101,7 @@
     for (var i = 0; i < arcs.length; i++) {
       var arc = arcs[i];
       var pulse = (Math.sin(t * arc.userData.speed + arc.userData.phase) + 1) / 2;
-      arc.material.opacity = 0.35 + pulse * 0.65;
+      arc.material.opacity = 0.4 + pulse * 0.6;
     }
     renderer.render(scene, camera);
   }
