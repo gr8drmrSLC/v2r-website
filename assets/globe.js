@@ -32,13 +32,13 @@
 
   var wireGeo = new THREE.WireframeGeometry(icoGeo);
   var wireMat = new THREE.LineBasicMaterial({
-    color: 0x2fb8e8, transparent: true, opacity: 0.28
+    color: 0x2f8fe0, transparent: true, opacity: 0.22
   });
   group.add(new THREE.LineSegments(wireGeo, wireMat));
 
   var nodeGeo = new THREE.BufferGeometry().setFromPoints(nodePoints);
   var nodeMat = new THREE.PointsMaterial({
-    color: 0x8fe9ff, size: 0.075, transparent: true, opacity: 0.95,
+    color: 0x3fc8ff, size: 0.095, transparent: true, opacity: 0.95,
     blending: THREE.AdditiveBlending, depthWrite: false
   });
   group.add(new THREE.Points(nodeGeo, nodeMat));
@@ -50,7 +50,7 @@
     var curve = new THREE.QuadraticBezierCurve3(a, mid, b);
     var geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(48));
     var mat = new THREE.LineBasicMaterial({
-      color: 0x5fe0ff, transparent: true, opacity: 0.5,
+      color: 0x39a6ff, transparent: true, opacity: 0.5,
       blending: THREE.AdditiveBlending, depthWrite: false
     });
     var line = new THREE.Line(geo, mat);
@@ -95,12 +95,12 @@
 
   function render() {
     var t = clock.getElapsedTime();
-    group.rotation.y = t * 0.09;
+    group.rotation.y = t * 0.12;
     group.rotation.x = 0.15;
     for (var i = 0; i < arcs.length; i++) {
       var arc = arcs[i];
       var pulse = (Math.sin(t * arc.userData.speed + arc.userData.phase) + 1) / 2;
-      arc.material.opacity = 0.16 + pulse * 0.55;
+      arc.material.opacity = 0.22 + pulse * 0.78;
     }
     renderer.render(scene, camera);
   }
