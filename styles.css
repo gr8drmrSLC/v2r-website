@@ -393,6 +393,25 @@ main > section:not(.hero) {
   font-size: 13px;
 }
 
+.explore-synthesis {
+  background: rgba(127, 210, 216, 0.08);
+  border: 1px solid rgba(127, 210, 216, 0.4);
+  border-left: 3px solid var(--teal);
+}
+
+.explore-synthesis .explore-widget-label {
+  color: #7fd2d8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+}
+
+.explore-synthesis-text {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
 footer {
   display: flex;
   flex-wrap: wrap;
