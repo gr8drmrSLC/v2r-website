@@ -4,6 +4,7 @@
   var checks = document.getElementById('capabilityChecks');
   var capabilityResult = document.getElementById('capabilityResult');
   var progressNote = document.getElementById('progressNote');
+  var progressNoteDone = document.getElementById('progressNoteDone');
   var synthesisText = document.getElementById('synthesisText');
 
   var clarityText = [
@@ -100,6 +101,11 @@
     progressNote.addEventListener('input', function () {
       try { localStorage.setItem('v2adv_progress_note', progressNote.value); } catch (e) {}
       updateSynthesis();
+    });
+  }
+  if (progressNoteDone) {
+    progressNoteDone.addEventListener('click', function () {
+      progressNote.blur();
     });
   }
 

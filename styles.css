@@ -386,6 +386,21 @@ main > section:not(.hero) {
   color: rgba(255, 255, 255, 0.4);
 }
 
+.explore-done {
+  display: block;
+  margin: 10px 0 0 auto;
+  padding: 8px 16px;
+  min-height: 36px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.85);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .explore-save-note {
   margin-top: 10px;
   margin-bottom: 0;
