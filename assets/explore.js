@@ -18,8 +18,7 @@
     software: 'a software or systems build',
     automation: 'automation',
     analytics: 'analytics and measurement',
-    operational: 'operational improvement',
-    robotics: 'robotics or automation-hardware sourcing'
+    operational: 'operational improvement'
   };
 
   function updateClarity() {
