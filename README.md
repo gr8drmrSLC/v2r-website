@@ -61,16 +61,22 @@ Not duplicated here; that document is the source of truth for the "why."
 `howtoplaypickleball-seo`'s real, live floating chat widget's interaction
 shape, restyled to V2ADV's own palette) replaces the old static
 three-card section. It is purely static in this repository — no
-`fetch()`, no Cloudflare Turnstile here — with two plain links
-("Create Your Profile," "Log In") into `v2r-platform`'s own pages
-(currently a placeholder `app.v2adv.com` domain, to be swapped once real
-deployment infrastructure exists). The actual profile creation, login,
-discovery-path selection, online questionnaire, call-booking page, and
-client dashboard are all served by `v2r-platform` itself, same-origin
-Jinja2 pages, not by this repository — see that repository's own
-`PROJECT_STATUS.md` and `DECISIONS.md` (2026-09-06 entries) for real
-build status. The ten-minute call-cancellation policy lives only on that
-platform's booking page now, not on this homepage.
+`fetch()`, no Cloudflare Turnstile here. Its panel currently links to
+`mailto:contact@v2adv.com`, an honest interim channel, the same
+convention this site already used for other not-yet-self-service paths:
+a first version briefly linked to `https://app.v2adv.com`, a domain that
+was never deployed anywhere and does not resolve (confirmed NXDOMAIN),
+which this repository's GitHub Pages/CNAME setup put live in front of
+real visitors for a short window before being caught and fixed the same
+day (see `v2r-platform`'s `DECISIONS.md`, 2026-09-06, for the full
+record). The actual profile creation, login, discovery-path selection,
+online questionnaire, call-booking page, and client dashboard are built
+and merged in `v2r-platform`, same-origin Jinja2 pages — see that
+repository's own `PROJECT_STATUS.md` and `DECISIONS.md` (2026-09-06
+entries) for real build status — but that platform has no deployment
+anywhere yet, so this widget cannot link to it for real until it does.
+The ten-minute call-cancellation policy lives only on that platform's
+(not-yet-reachable) booking page now, not on this homepage.
 
 **The AI Discovery Interview** ("Talk It Through," one of the three
 paths reachable after logging in) is under active build in the separate
