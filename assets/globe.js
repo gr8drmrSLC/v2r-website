@@ -44,19 +44,23 @@
     var ctx = c.getContext('2d');
     var g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
     g.addColorStop(0, 'rgba(255,255,255,1)');
-    g.addColorStop(0.25, 'rgba(210,245,255,0.95)');
-    g.addColorStop(0.6, 'rgba(0,195,255,0.45)');
-    g.addColorStop(1, 'rgba(0,195,255,0)');
+    g.addColorStop(0.2, 'rgba(220,250,255,1)');
+    g.addColorStop(0.45, 'rgba(0,195,255,0.9)');
+    g.addColorStop(0.75, 'rgba(0,150,255,0.5)');
+    g.addColorStop(1, 'rgba(0,150,255,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, size, size);
     var tex = new THREE.CanvasTexture(c);
+    tex.generateMipmaps = false;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
     tex.needsUpdate = true;
     return tex;
   }
 
   var nodeGeo = new THREE.BufferGeometry().setFromPoints(nodePoints);
   var nodeMat = new THREE.PointsMaterial({
-    map: makeGlowSprite(), color: 0x00c3ff, size: 0.26, transparent: true,
+    map: makeGlowSprite(), color: 0xffffff, size: 0.26, transparent: true,
     opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false
   });
   group.add(new THREE.Points(nodeGeo, nodeMat));
