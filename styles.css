@@ -76,7 +76,7 @@ nav a:hover {
 
 .hero {
   position: relative;
-  min-height: 92vh;
+  min-height: 78vh;
   display: grid;
   align-items: center;
   overflow: hidden;
@@ -461,7 +461,7 @@ footer .legal-links a:hover {
   }
 
   .hero {
-    min-height: 88vh;
+    min-height: 72vh;
     padding: 150px 20px 56px;
   }
 
