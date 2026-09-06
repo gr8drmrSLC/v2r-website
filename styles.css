@@ -88,7 +88,7 @@ nav a:hover {
   color: #fff;
   padding: 112px clamp(20px, 7vw, 96px) 84px;
   background:
-    radial-gradient(ellipse at 78% 50%, rgba(47, 180, 255, 0.34), transparent 62%),
+    radial-gradient(ellipse at 78% 50%, rgba(60, 170, 255, 0.46), transparent 66%),
     var(--charcoal);
 }
 
@@ -99,8 +99,8 @@ nav a:hover {
   height: 100%;
   display: block;
   filter:
-    drop-shadow(0 0 14px rgba(63, 200, 255, 0.75))
-    drop-shadow(0 0 34px rgba(47, 160, 255, 0.5));
+    drop-shadow(0 0 16px rgba(90, 210, 255, 0.85))
+    drop-shadow(0 0 40px rgba(60, 170, 255, 0.6));
 }
 
 .hero-overlay {
