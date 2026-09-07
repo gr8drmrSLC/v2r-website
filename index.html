@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="stylesheet" href="styles.css?v=6">
   </head>
   <body>
     <header class="site-header" aria-label="Site header">
@@ -182,6 +182,81 @@
             </div>
           </div>
           <p class="explore-tenets-caption">Every engagement repeats the same cycle: understand the objective, organize the plan, execute the work, learn from the results, and make it better.</p>
+
+          <div class="explore-hourglass">
+            <p class="explore-tenets-label">From Objective to Outcome</p>
+            <div class="hourglass-diagram">
+              <svg viewBox="0 0 300 668" role="img" aria-label="Diagram: a client objective narrows into one custom plan, fans out across marketing, automation, research, and operations, converges into implementation, then fans into KPI tracking and adjustment before converging on the objective achieved.">
+                <defs>
+                  <radialGradient id="hgNodeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#eafeff" stop-opacity="1"/>
+                    <stop offset="45%" stop-color="#22c7dd" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#0d4a54" stop-opacity="0"/>
+                  </radialGradient>
+                  <marker id="hgLoopArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="#22c7dd" fill-opacity="0.55"/>
+                  </marker>
+                </defs>
+
+                <rect x="30" y="14" width="240" height="32" rx="16" fill="rgba(34,199,221,0.12)" stroke="rgba(34,199,221,0.55)" stroke-width="1.2"/>
+                <text x="150" y="34" text-anchor="middle" class="hourglass-pill-label">CLIENT OBJECTIVES</text>
+
+                <path class="hourglass-flow-line" d="M46,46 L150,240"/>
+                <path class="hourglass-flow-line" d="M254,46 L150,240"/>
+
+                <circle cx="150" cy="130" r="4" fill="url(#hgNodeGlow)"/>
+                <text x="150" y="152" text-anchor="middle">DISCOVERY</text>
+
+                <circle class="hourglass-node-halo" cx="150" cy="240" r="16"/>
+                <circle cx="150" cy="240" r="6" fill="url(#hgNodeGlow)"/>
+                <text x="150" y="264" text-anchor="middle">CUSTOM PLAN</text>
+
+                <path class="hourglass-flow-line" d="M150,240 L90,350"/>
+                <path class="hourglass-flow-line" d="M150,240 L210,350"/>
+                <path class="hourglass-flow-line" d="M150,240 L90,390"/>
+                <path class="hourglass-flow-line" d="M150,240 L210,390"/>
+
+                <circle cx="90" cy="350" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="90" y="336" text-anchor="middle">MARKETING</text>
+                <circle cx="210" cy="350" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="210" y="336" text-anchor="middle">AUTOMATION</text>
+                <circle cx="90" cy="390" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="90" y="408" text-anchor="middle">RESEARCH</text>
+                <circle cx="210" cy="390" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="210" y="408" text-anchor="middle">OPERATIONS</text>
+
+                <path class="hourglass-flow-line" d="M90,350 L150,460"/>
+                <path class="hourglass-flow-line" d="M210,350 L150,460"/>
+                <path class="hourglass-flow-line" d="M90,390 L150,460"/>
+                <path class="hourglass-flow-line" d="M210,390 L150,460"/>
+
+                <circle class="hourglass-node-halo" cx="150" cy="460" r="14"/>
+                <circle cx="150" cy="460" r="6" fill="url(#hgNodeGlow)"/>
+                <text x="150" y="484" text-anchor="middle">IMPLEMENTATION</text>
+
+                <path class="hourglass-flow-line" d="M150,460 L90,540"/>
+                <path class="hourglass-flow-line" d="M150,460 L210,540"/>
+
+                <circle cx="90" cy="540" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="90" y="526" text-anchor="middle">KPI TRACKING</text>
+                <circle cx="210" cy="540" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="210" y="526" text-anchor="middle">ADJUST</text>
+
+                <path class="hourglass-loop-line" d="M222,532 C268,498 268,432 168,466" marker-end="url(#hgLoopArrow)"/>
+
+                <path class="hourglass-flow-line" d="M90,540 L150,620"/>
+                <path class="hourglass-flow-line" d="M210,540 L150,620"/>
+
+                <circle class="hourglass-node-halo hourglass-node-halo-final" cx="150" cy="620" r="18"/>
+                <circle cx="150" cy="620" r="7" fill="#eafeff"/>
+                <text x="150" y="644" text-anchor="middle" class="hourglass-final-label">OBJECTIVE ACHIEVED</text>
+              </svg>
+            </div>
+            <p class="explore-tenets-caption">Every objective narrows to one custom plan, fans out across the right capabilities, then gets tracked and adjusted until the objective is real.</p>
+            <div class="explore-hourglass-logo">
+              <img src="assets/v2adv-wordmark-mono.png" alt="" aria-hidden="true">
+            </div>
+          </div>
         </div>
         </div>
 
