@@ -52,7 +52,7 @@
   var drift = basePositions.map(function () {
     return {
       phase: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],
-      speed: [0.25 + Math.random() * 0.35, 0.2 + Math.random() * 0.3, 0.22 + Math.random() * 0.3],
+      speed: [0.13 + Math.random() * 0.18, 0.1 + Math.random() * 0.15, 0.11 + Math.random() * 0.15],
       amp: 0.16 + Math.random() * 0.12
     };
   });
@@ -258,7 +258,7 @@
 
   function render() {
     var t = clock.getElapsedTime();
-    group.rotation.y = t * 0.1;
+    group.rotation.y = t * 0.05;
     group.rotation.x = 0.12;
     updatePositions(t);
     for (var i = 0; i < edgeLines.length; i++) {
