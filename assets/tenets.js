@@ -32,15 +32,10 @@
     return new THREE.Vector3(Math.cos(angle) * ringRadius, Math.sin(angle) * ringRadius, 0);
   });
 
-  // Very small drift -- alive, not static, but never enough to threaten
-  // the ring's legibility as a sequence.
-  var drift = basePositions.map(function () {
-    return {
-      phase: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],
-      speed: [0.1 + Math.random() * 0.08, 0.09 + Math.random() * 0.07],
-      amp: 0.03 + Math.random() * 0.02
-    };
-  });
+  // Nodes stay fixed exactly on the circle -- this is a reference
+  // diagram of a real, ordered cycle, so geometric correctness (a true
+  // circle, arrows reading clearly) matters more here than the organic
+  // wobble used elsewhere on the site.
   var current = basePositions.map(function (p) { return p.clone(); });
 
   function makeStarSprite() {
@@ -129,24 +124,61 @@
     return pts;
   });
 
-  // Each edge's pulse phase is offset around the ring, not random --
-  // brightness travels Understand -> Organize -> Execute -> Learn ->
-  // Improve -> back to Understand in one continuous lap. This is meant
-  // to visualize the real cyclical method, not just decorate the shape.
-  var lapSeconds = 7;
-  var edgeLines = names.map(function (n, i) {
-    var a = current[i], b = current[(i + 1) % names.length];
-    var geo = new THREE.BufferGeometry().setFromPoints([a, b]);
-    var mat = new THREE.LineBasicMaterial({
-      color: 0x22c7dd, transparent: true, opacity: 0.2,
-      blending: THREE.AdditiveBlending, depthWrite: false
-    });
-    var line = new THREE.Line(geo, mat);
-    line.userData.pair = [i, (i + 1) % names.length];
-    line.userData.offset = (i / names.length) * lapSeconds;
-    group.add(line);
-    return line;
+  // A true circle, not a five-sided polygon: sample many points around
+  // the ring and drive per-vertex color, so a bright "comet" of light
+  // can travel continuously around a real curve. Direction of travel
+  // (Understand -> Organize -> Execute -> Learn -> Improve -> back to
+  // Understand) matches increasing angle, i.e. counterclockwise here.
+  var startAngle = -Math.PI / 2;
+  var segments = 128;
+  var ringPositions = new Float32Array((segments + 1) * 3);
+  var ringFractions = [];
+  for (var s = 0; s <= segments; s++) {
+    var frac = s / segments;
+    var ang = startAngle + frac * Math.PI * 2;
+    ringPositions[s * 3] = Math.cos(ang) * ringRadius;
+    ringPositions[s * 3 + 1] = Math.sin(ang) * ringRadius;
+    ringPositions[s * 3 + 2] = 0;
+    ringFractions.push(frac);
+  }
+  var ringColors = new Float32Array((segments + 1) * 3);
+  var ringGeo = new THREE.BufferGeometry();
+  ringGeo.setAttribute('position', new THREE.BufferAttribute(ringPositions, 3));
+  ringGeo.setAttribute('color', new THREE.BufferAttribute(ringColors, 3));
+  var ringMat = new THREE.LineBasicMaterial({
+    vertexColors: true, transparent: true, opacity: 1,
+    blending: THREE.AdditiveBlending, depthWrite: false
   });
+  var ringLine = new THREE.Line(ringGeo, ringMat);
+  group.add(ringLine);
+  var lapSeconds = 7;
+
+  // Small arrowheads at the midpoint of each leg, pointing tangent to
+  // the circle in the direction of travel -- an explicit, unambiguous
+  // "this is the order" marker, not just implied by the moving glow.
+  function buildArrow(angle) {
+    var size = 0.16;
+    var shape = new THREE.Shape();
+    shape.moveTo(size, 0);
+    shape.lineTo(-size * 0.6, size * 0.6);
+    shape.lineTo(-size * 0.6, -size * 0.6);
+    shape.lineTo(size, 0);
+    var geo = new THREE.ShapeGeometry(shape);
+    var mat = new THREE.MeshBasicMaterial({
+      color: 0x22c7dd, transparent: true, opacity: 0.75,
+      blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
+    });
+    var mesh = new THREE.Mesh(geo, mat);
+    var tangent = angle + Math.PI / 2;
+    mesh.position.set(Math.cos(angle) * ringRadius, Math.sin(angle) * ringRadius, 0.01);
+    mesh.rotation.z = tangent;
+    return mesh;
+  }
+  for (var ai = 0; ai < names.length; ai++) {
+    var a0 = startAngle + (ai / names.length) * Math.PI * 2;
+    var a1 = startAngle + ((ai + 1) / names.length) * Math.PI * 2;
+    group.add(buildArrow((a0 + a1) / 2));
+  }
 
   var labelEls = names.map(function (n) {
     var el = document.createElement('div');
@@ -183,25 +215,20 @@
   var clock = new THREE.Clock();
   var tmpV = new THREE.Vector3();
 
-  function updatePositions(t) {
-    for (var i = 0; i < basePositions.length; i++) {
-      var d = drift[i];
-      current[i].set(
-        basePositions[i].x + Math.sin(t * d.speed[0] + d.phase[0]) * d.amp,
-        basePositions[i].y + Math.sin(t * d.speed[1] + d.phase[1]) * d.amp,
-        0
-      );
-      var pos = pointObjs[i].geometry.attributes.position;
-      pos.setXYZ(0, current[i].x, current[i].y, current[i].z);
-      pos.needsUpdate = true;
+  var baseColor = new THREE.Color(0x22c7dd);
+  var hotColor = new THREE.Color(0xdffbff);
+  var tmpColor = new THREE.Color();
+
+  function updateRingPulse(t) {
+    var colorAttr = ringGeo.attributes.color;
+    for (var s = 0; s <= segments; s++) {
+      var local = ((t / lapSeconds + ringFractions[s]) % 1 + 1) % 1;
+      var pulse = Math.pow(Math.max(0, Math.cos(local * Math.PI * 2)), 5);
+      var brightness = 0.16 + pulse * 0.84;
+      tmpColor.copy(baseColor).lerp(hotColor, pulse).multiplyScalar(brightness);
+      colorAttr.setXYZ(s, tmpColor.r, tmpColor.g, tmpColor.b);
     }
-    edgeLines.forEach(function (line) {
-      var pair = line.userData.pair;
-      var pos = line.geometry.attributes.position;
-      pos.setXYZ(0, current[pair[0]].x, current[pair[0]].y, current[pair[0]].z);
-      pos.setXYZ(1, current[pair[1]].x, current[pair[1]].y, current[pair[1]].z);
-      pos.needsUpdate = true;
-    });
+    colorAttr.needsUpdate = true;
   }
 
   function updateLabels() {
@@ -216,18 +243,13 @@
 
   function render() {
     var t = clock.getElapsedTime();
-    updatePositions(t);
-    edgeLines.forEach(function (line) {
-      var local = ((t + line.userData.offset) % lapSeconds) / lapSeconds;
-      var pulse = Math.pow(Math.max(0, Math.cos(local * Math.PI * 2)), 3);
-      line.material.opacity = 0.18 + pulse * 0.6;
-    });
+    updateRingPulse(t);
     renderer.render(scene, camera);
     updateLabels();
   }
 
   if (reduceMotion) {
-    edgeLines.forEach(function (line) { line.material.opacity = 0.4; });
+    updateRingPulse(0);
     renderer.render(scene, camera);
     updateLabels();
   } else {
