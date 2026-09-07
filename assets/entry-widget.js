@@ -31,6 +31,11 @@
   document.addEventListener('click', function (event) {
     if (!panel.classList.contains('open')) return;
     if (panel.contains(event.target) || trigger.contains(event.target)) return;
+    // A click that just opened the panel via a data-v2adv-entry-trigger
+    // link elsewhere on the page (nav, a section CTA) still bubbles up
+    // to this same handler in the same event -- without this check it
+    // reads as "click outside" and closes the panel it just opened.
+    if (event.target.closest && event.target.closest('[data-v2adv-entry-trigger]')) return;
     closePanel();
   });
 

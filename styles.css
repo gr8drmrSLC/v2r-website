@@ -320,14 +320,22 @@ main > section:not(.hero) {
 .explore {
   background: var(--charcoal);
   color: #fff;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
-  gap: clamp(24px, 6vw, 80px);
-  align-items: start;
 }
 
 .explore .eyebrow {
   color: #7fd2d8;
+}
+
+/* Capped and centered, unlike the section itself (which stays full-bleed
+   for the background) -- without this, the two columns spread apart on
+   very wide screens instead of sitting at a fixed, deliberate distance. */
+.explore-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  gap: clamp(24px, 6vw, 80px);
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
 .explore-tenets {
@@ -346,6 +354,9 @@ main > section:not(.hero) {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(34, 199, 221, 0.16), rgba(34, 199, 221, 0.04) 55%, transparent 72%);
 }
 
 .explore-tenets-graphic canvas {
@@ -360,6 +371,47 @@ main > section:not(.hero) {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.explore-tenets-caption {
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.explore-cta {
+  max-width: 1180px;
+  margin: 56px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.explore-cta-text {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.explore-cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: var(--teal);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
 }
 
 .explore-inner {
@@ -586,7 +638,7 @@ footer .legal-links a:hover {
   .control,
   .method,
   .focus-grid,
-  .explore {
+  .explore-grid {
     grid-template-columns: 1fr;
   }
 

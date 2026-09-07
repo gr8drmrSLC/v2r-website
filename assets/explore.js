@@ -8,11 +8,16 @@
   var synthesisText = document.getElementById('synthesisText');
 
   var clarityText = [
-    { max: 20, text: 'Discovery starts by finding the objective itself.' },
-    { max: 40, text: 'A direction exists, but its shape is still forming.' },
-    { max: 60, text: 'A real objective exists, though the path to it is still open.' },
-    { max: 80, text: 'The objective is clear; the open question is how to execute it well.' },
-    { max: 100, text: 'The plan is largely scoped. V2ADV can move directly toward execution.' }
+    { max: 10, text: 'There is no objective yet. Discovery starts by finding it.' },
+    { max: 20, text: 'An idea exists, but it has not taken shape as an objective yet.' },
+    { max: 30, text: 'A direction is forming, though it is still more instinct than plan.' },
+    { max: 40, text: 'A real direction exists, but its shape is still loose.' },
+    { max: 50, text: 'A real objective exists, though the path to it is still open.' },
+    { max: 60, text: 'The objective is taking firmer shape; some real decisions remain.' },
+    { max: 70, text: 'The objective is clear; what is open now is how to execute it well.' },
+    { max: 80, text: 'The objective and rough approach are both clear; the details need settling.' },
+    { max: 90, text: 'The plan is largely scoped; a few open questions remain before execution.' },
+    { max: 100, text: 'The plan is scoped and ready. V2ADV can move directly toward execution.' }
   ];
 
   var capabilityLabels = {
@@ -64,6 +69,35 @@
     updateSynthesis();
   }
 
+  // Framing varies by how clear the objective already is, so the
+  // capability sentence reads as responding to the slider above it,
+  // not just restating a fixed template next to it.
+  var capabilityFraming = {
+    low: {
+      one: 'Before anything else, {A} is usually where an engagement at this stage starts.',
+      many: 'Before anything else, engagements at this stage usually start with {LIST}, in roughly that order.'
+    },
+    mid: {
+      one: '{A} is usually engaged early, alongside shaping the plan itself.',
+      many: '{LIST} are usually engaged early, in roughly that order, alongside shaping the plan itself.'
+    },
+    high: {
+      one: 'With the plan already scoped, {A} is usually where execution actually starts.',
+      many: 'With the plan already scoped, execution usually starts with {LIST}.'
+    }
+  };
+
+  function capabilityTier() {
+    var value = range ? Number(range.value) : 50;
+    if (value <= 35) return 'low';
+    if (value <= 65) return 'mid';
+    return 'high';
+  }
+
+  function capitalize(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
   function updateSynthesis() {
     if (!synthesisText) return;
 
@@ -71,17 +105,22 @@
 
     var selectedKeys = selectedCapabilityKeys();
     var ordered = capabilityPriority.filter(function (key) { return selectedKeys.indexOf(key) !== -1; });
+    var framing = capabilityFraming[capabilityTier()];
     if (ordered.length === 1) {
-      parts.push(capabilityLabels[ordered[0]].charAt(0).toUpperCase() + capabilityLabels[ordered[0]].slice(1) + ' is usually the first capability engaged.');
+      var label = capabilityLabels[ordered[0]];
+      parts.push(capitalize(framing.one.replace('{A}', label)));
     } else if (ordered.length > 1) {
       var labels = ordered.map(function (key) { return capabilityLabels[key]; });
       var joined = labels.slice(0, -1).join(', ') + ', then ' + labels[labels.length - 1];
-      parts.push('Engagements with this mix usually take up ' + joined + ' in roughly that order, though Discovery sets the real sequence.');
+      parts.push(framing.many.replace('{LIST}', joined) + ' Discovery sets the real sequence.');
     }
 
     var note = progressNote ? progressNote.value.trim() : '';
     if (note) {
-      parts.push('In your own words, six months from now looks like: “' + note + '” — that’s the target the plan above would organize around, not a separate goal to reconcile later.');
+      var closer = ordered.length
+        ? 'that’s the target the plan above would organize around, not a separate goal to reconcile later.'
+        : 'worth pinning down which capabilities above actually get there, once that becomes clearer.';
+      parts.push('In your own words, six months from now looks like: “' + note + '” — ' + closer);
     }
 
     synthesisText.textContent = parts.join(' ');

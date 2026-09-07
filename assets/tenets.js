@@ -89,6 +89,34 @@
     return tex;
   }
 
+  // A soft, large glow sitting behind the ring -- reads as a sphere the
+  // five points sit on, not a bare flat outline floating in empty space.
+  // Plain radial falloff, no star spikes (those distort badly at this scale).
+  function makeGlowOnly() {
+    var size = 256;
+    var c = document.createElement('canvas');
+    c.width = c.height = size;
+    var ctx = c.getContext('2d');
+    var g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    g.addColorStop(0, 'rgba(34,199,221,0.6)');
+    g.addColorStop(0.5, 'rgba(34,199,221,0.22)');
+    g.addColorStop(1, 'rgba(34,199,221,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    var tex = new THREE.CanvasTexture(c);
+    tex.generateMipmaps = false;
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.needsUpdate = true;
+    return tex;
+  }
+  var glowMat = new THREE.PointsMaterial({
+    map: makeGlowOnly(), color: 0xffffff, size: ringRadius * 2.7, transparent: true,
+    opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false
+  });
+  var glowGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, -0.4)]);
+  group.add(new THREE.Points(glowGeo, glowMat));
+
   var starTex = makeStarSprite();
   var pointObjs = current.map(function (pos) {
     var geo = new THREE.BufferGeometry().setFromPoints([pos]);
@@ -128,16 +156,29 @@
     return el;
   });
 
+  var fitted = false;
   function fitCanvas() {
     var parent = canvas.parentElement;
     var w = parent.clientWidth, h = parent.clientHeight;
-    if (!w || !h) return;
+    if (!w || !h) return false;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    return true;
   }
   window.addEventListener('resize', fitCanvas);
-  fitCanvas();
+  fitted = fitCanvas();
+  if (!fitted) {
+    // The parent's size (sticky + aspect-ratio) can read as zero the
+    // instant this script runs, before layout has actually settled --
+    // if that first fit is skipped, nothing ever retries and the
+    // renderer stays stuck at a broken size. Keep trying every frame
+    // until it succeeds, rather than only on the next window resize.
+    (function waitForLayout() {
+      if (fitCanvas()) return;
+      requestAnimationFrame(waitForLayout);
+    })();
+  }
 
   var clock = new THREE.Clock();
   var tmpV = new THREE.Vector3();
