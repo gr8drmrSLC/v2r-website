@@ -27,29 +27,55 @@
   // meant to read as many different capabilities (marketing, research,
   // automation...) connected together toward one objective, rather than
   // a generic "we operate worldwide" wireframe planet.
-  var seedCount = 4;
-  var seeds = [];
-  for (var sd = 0; sd < seedCount; sd++) {
-    seeds.push(new THREE.Vector3(
+  //
+  // Two tiers, on purpose: a business needs both a foundation that holds
+  // and a layer that responds. Anchors (few, bigger, calm) are that
+  // foundation -- visible now, not just an invisible generation bias.
+  // Satellites (many, smaller, carrying the labeled business functions)
+  // drift more freely around their own anchor, the ebb and flow.
+  var anchorCount = 4;
+  var basePositions = [];
+  var nodeSizes = [];
+  var anchorIndices = [];
+  for (var a = 0; a < anchorCount; a++) {
+    anchorIndices.push(basePositions.length);
+    basePositions.push(new THREE.Vector3(
       (Math.random() - 0.5) * 4.4,
       (Math.random() - 0.5) * 3.2,
       (Math.random() - 0.5) * 2.6
     ));
-  }
-  var pointCount = 74;
-  var basePositions = [];
-  for (var i = 0; i < pointCount; i++) {
-    var seed = seeds[Math.floor(Math.random() * seeds.length)];
-    basePositions.push(new THREE.Vector3(
-      seed.x + gauss(1.3),
-      seed.y + gauss(1.05),
-      seed.z + gauss(1.0)
-    ));
+    nodeSizes.push(0.7);
   }
 
-  // Each point drifts on its own independent orbit around its resting
-  // position -- alive and adapting, not a rigid shape that only spins.
-  var drift = basePositions.map(function () {
+  var satelliteCount = 74;
+  var satelliteParent = [];
+  for (var i = 0; i < satelliteCount; i++) {
+    var parentIdx = anchorIndices[Math.floor(Math.random() * anchorIndices.length)];
+    var anchor = basePositions[parentIdx];
+    basePositions.push(new THREE.Vector3(
+      anchor.x + gauss(1.3),
+      anchor.y + gauss(1.05),
+      anchor.z + gauss(1.0)
+    ));
+    nodeSizes.push(0.4);
+    satelliteParent.push({ index: basePositions.length - 1, parent: parentIdx });
+  }
+
+  // Anchors drift on a much calmer, smaller cycle than satellites -- not
+  // frozen (a perfectly static node next to drifting ones would read as
+  // broken, not intentional), just visibly steadier and heavier. The
+  // contrast itself is the point: calm versus active, not still versus
+  // moving.
+  var anchorSet = {};
+  anchorIndices.forEach(function (idx) { anchorSet[idx] = true; });
+  var drift = basePositions.map(function (pos, idx) {
+    if (anchorSet[idx]) {
+      return {
+        phase: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],
+        speed: [0.04 + Math.random() * 0.05, 0.035 + Math.random() * 0.04, 0.04 + Math.random() * 0.04],
+        amp: 0.04 + Math.random() * 0.03
+      };
+    }
     return {
       phase: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],
       speed: [0.13 + Math.random() * 0.18, 0.1 + Math.random() * 0.15, 0.11 + Math.random() * 0.15],
@@ -60,12 +86,25 @@
 
   var edgeSet = {};
   var edgePairs = [];
-  function addEdge(a, b) {
-    var key = Math.min(a, b) + '_' + Math.max(a, b);
+  function addEdge(a2, b) {
+    var key = Math.min(a2, b) + '_' + Math.max(a2, b);
     if (edgeSet[key]) return;
     edgeSet[key] = true;
-    edgePairs.push([a, b]);
+    edgePairs.push([a2, b]);
   }
+
+  // Every satellite connects to its own anchor -- the foundation is
+  // never orphaned from what it supports.
+  satelliteParent.forEach(function (s) { addEdge(s.index, s.parent); });
+
+  // Anchors connect to each other -- even the fixed foundations are
+  // interconnected, not isolated pillars.
+  for (var ai = 0; ai < anchorIndices.length; ai++) {
+    addEdge(anchorIndices[ai], anchorIndices[(ai + 1) % anchorIndices.length]);
+  }
+
+  // Organic proximity connections across the whole structure on top of
+  // the guaranteed anchor relationships above.
   var k = 3;
   for (var p = 0; p < basePositions.length; p++) {
     var dists = [];
@@ -145,11 +184,10 @@
   }
 
   var starTex = makeStarSprite();
-  var nodeSize = 0.4;
-  var pointObjs = current.map(function (pos) {
+  var pointObjs = current.map(function (pos, idx) {
     var geo = new THREE.BufferGeometry().setFromPoints([pos]);
     var mat = new THREE.PointsMaterial({
-      map: starTex, color: 0xffffff, size: nodeSize, transparent: true,
+      map: starTex, color: 0xffffff, size: nodeSizes[idx], transparent: true,
       opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false
     });
     var pts = new THREE.Points(geo, mat);
@@ -157,12 +195,13 @@
     return pts;
   });
 
-  // A handful of points carry real business-function words -- hover near
-  // one and it lights up with a label, so the structure reads as "this is
-  // all the interconnected parts of my business," not an abstract cloud.
+  // A handful of satellite points carry real business-function words --
+  // hover near one and it lights up with a label, so the structure reads
+  // as "this is all the interconnected parts of my business," not an
+  // abstract cloud. Anchors stay unlabeled -- they represent the
+  // foundation itself, not a specific named activity.
   var keywords = ['Marketing', 'Sales', 'Analytics', 'Operations', 'Logistics', 'Research', 'Automation', 'Training', 'Content', 'Profit', 'Growth', 'Support'];
-  var eligible = [];
-  for (var ei = 0; ei < basePositions.length; ei++) eligible.push(ei);
+  var eligible = satelliteParent.map(function (s) { return s.index; });
   for (var ei2 = eligible.length - 1; ei2 > 0; ei2--) {
     var swapIdx = Math.floor(Math.random() * (ei2 + 1));
     var tmpE = eligible[ei2]; eligible[ei2] = eligible[swapIdx]; eligible[swapIdx] = tmpE;
@@ -244,7 +283,7 @@
       if (dist < nearestDist) { nearestDist = dist; nearest = kp; }
     });
     keywordPoints.forEach(function (kp) {
-      pointObjs[kp.index].material.size = nodeSize * (kp === nearest ? 1.5 : 1);
+      pointObjs[kp.index].material.size = nodeSizes[kp.index] * (kp === nearest ? 1.5 : 1);
     });
     if (nearest) {
       tooltipEl.textContent = nearest.word;
