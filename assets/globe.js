@@ -37,19 +37,44 @@
   });
   group.add(new THREE.LineSegments(wireGeo, wireMat));
 
-  function makeGlowSprite() {
-    var size = 128;
+  function makeStarSprite() {
+    var size = 256;
     var c = document.createElement('canvas');
     c.width = c.height = size;
     var ctx = c.getContext('2d');
-    var g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    var cx = size / 2, cy = size / 2;
+
+    var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, size / 2);
     g.addColorStop(0, 'rgba(255,255,255,1)');
-    g.addColorStop(0.2, 'rgba(220,250,255,1)');
-    g.addColorStop(0.45, 'rgba(0,195,255,0.9)');
-    g.addColorStop(0.75, 'rgba(0,150,255,0.5)');
-    g.addColorStop(1, 'rgba(0,150,255,0)');
+    g.addColorStop(0.1, 'rgba(255,255,255,1)');
+    g.addColorStop(0.28, 'rgba(130,205,255,0.95)');
+    g.addColorStop(0.5, 'rgba(20,120,255,0.75)');
+    g.addColorStop(0.75, 'rgba(10,60,200,0.3)');
+    g.addColorStop(1, 'rgba(10,60,200,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, size, size);
+
+    ctx.globalCompositeOperation = 'lighter';
+    var spikes = [
+      { angle: 0, len: size * 0.5, width: size * 0.05, alpha: 1 },
+      { angle: Math.PI / 2, len: size * 0.5, width: size * 0.05, alpha: 1 },
+      { angle: Math.PI / 4, len: size * 0.32, width: size * 0.028, alpha: 0.55 },
+      { angle: -Math.PI / 4, len: size * 0.32, width: size * 0.028, alpha: 0.55 }
+    ];
+    spikes.forEach(function (s) {
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(s.angle);
+      var sg = ctx.createLinearGradient(-s.len, 0, s.len, 0);
+      sg.addColorStop(0, 'rgba(255,255,255,0)');
+      sg.addColorStop(0.5, 'rgba(255,255,255,' + s.alpha + ')');
+      sg.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = sg;
+      ctx.fillRect(-s.len, -s.width / 2, s.len * 2, s.width);
+      ctx.restore();
+    });
+    ctx.globalCompositeOperation = 'source-over';
+
     var tex = new THREE.CanvasTexture(c);
     tex.generateMipmaps = false;
     tex.minFilter = THREE.LinearFilter;
@@ -60,7 +85,7 @@
 
   var nodeGeo = new THREE.BufferGeometry().setFromPoints(nodePoints);
   var nodeMat = new THREE.PointsMaterial({
-    map: makeGlowSprite(), color: 0xffffff, size: 0.26, transparent: true,
+    map: makeStarSprite(), color: 0xffffff, size: 0.36, transparent: true,
     opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false
   });
   group.add(new THREE.Points(nodeGeo, nodeMat));
