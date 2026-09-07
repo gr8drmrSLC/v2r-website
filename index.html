@@ -160,12 +160,22 @@
             <label for="progressNote" class="explore-widget-label">In one sentence, what would meaningful progress look like six months from now?</label>
             <textarea id="progressNote" placeholder="Write it in your own words..."></textarea>
             <button type="button" class="explore-done" id="progressNoteDone">Done</button>
-            <p class="explore-save-note">Saved only in this browser. Bring it along to whichever way of beginning fits below.</p>
+            <p class="explore-save-note">This answer exists only in this browser, on this device &mdash; it isn't sent or saved anywhere else.</p>
           </div>
 
           <div class="explore-widget explore-synthesis">
             <p class="explore-widget-label">What this suggests</p>
+            <p class="explore-synthesis-hint">Fills in as you answer the questions above.</p>
             <p class="explore-synthesis-text" id="synthesisText" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="explore-tenets">
+          <p class="eyebrow">Operating Partner &mdash; A Reminder</p>
+          <p class="explore-tenets-label">V2ADV's Five Disciplines</p>
+          <div class="explore-tenets-graphic">
+            <canvas id="tenets-canvas"></canvas>
+            <div id="tenets-labels"></div>
           </div>
         </div>
       </section>
@@ -216,6 +226,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="assets/globe.js?v=13"></script>
     <script src="assets/explore.js?v=2"></script>
+    <script src="assets/tenets.js?v=1"></script>
     <script src="assets/entry-widget.js"></script>
   </body>
 </html>

@@ -320,10 +320,46 @@ main > section:not(.hero) {
 .explore {
   background: var(--charcoal);
   color: #fff;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  gap: clamp(24px, 6vw, 80px);
+  align-items: start;
 }
 
 .explore .eyebrow {
   color: #7fd2d8;
+}
+
+.explore-tenets {
+  position: sticky;
+  top: 100px;
+}
+
+.explore-tenets-label {
+  margin: 0 0 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.explore-tenets-graphic {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.explore-tenets-graphic canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.explore-tenets-graphic #tenets-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .explore-inner {
@@ -453,6 +489,12 @@ main > section:not(.hero) {
   font-size: 13px;
 }
 
+.explore-synthesis-hint {
+  margin: 0 0 10px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12.5px;
+}
+
 .explore-synthesis-text {
   margin: 0;
   font-size: 17px;
@@ -543,8 +585,14 @@ footer .legal-links a:hover {
   .intro,
   .control,
   .method,
-  .focus-grid {
+  .focus-grid,
+  .explore {
     grid-template-columns: 1fr;
+  }
+
+  .explore-tenets {
+    position: static;
+    margin-top: 40px;
   }
 
   .steps li {
