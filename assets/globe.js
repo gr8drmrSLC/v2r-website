@@ -30,12 +30,27 @@
     ));
   }
 
+  // Each edge pulses on its own independent cycle, rather than the
+  // structure holding one constant brightness -- meant to read as a
+  // living, adapting system (activity moving through the connections),
+  // not a static shape that only spins.
   var wireGeo = new THREE.WireframeGeometry(icoGeo);
-  var wireMat = new THREE.LineBasicMaterial({
-    color: 0x1f7aff, transparent: true, opacity: 0.4,
-    blending: THREE.AdditiveBlending, depthWrite: false
-  });
-  group.add(new THREE.LineSegments(wireGeo, wireMat));
+  var wirePos = wireGeo.attributes.position;
+  var edgeLines = [];
+  for (var e = 0; e < wirePos.count; e += 2) {
+    var p1 = new THREE.Vector3().fromBufferAttribute(wirePos, e);
+    var p2 = new THREE.Vector3().fromBufferAttribute(wirePos, e + 1);
+    var edgeGeo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
+    var edgeMat = new THREE.LineBasicMaterial({
+      color: 0x1f7aff, transparent: true, opacity: 0.2,
+      blending: THREE.AdditiveBlending, depthWrite: false
+    });
+    var edgeLine = new THREE.Line(edgeGeo, edgeMat);
+    edgeLine.userData.phase = Math.random() * Math.PI * 2;
+    edgeLine.userData.speed = 0.15 + Math.random() * 0.35;
+    edgeLines.push(edgeLine);
+    group.add(edgeLine);
+  }
 
   function makeStarSprite() {
     var size = 256;
@@ -114,12 +129,20 @@
     var t = clock.getElapsedTime();
     group.rotation.y = t * 0.12;
     group.rotation.x = 0.15;
+    for (var i = 0; i < edgeLines.length; i++) {
+      var el = edgeLines[i];
+      var pulse = (Math.sin(t * el.userData.speed + el.userData.phase) + 1) / 2;
+      el.material.opacity = 0.12 + pulse * 0.55;
+    }
     renderer.render(scene, camera);
   }
 
   if (reduceMotion) {
     group.rotation.x = 0.15;
     group.rotation.y = 0.6;
+    for (var j = 0; j < edgeLines.length; j++) {
+      edgeLines[j].material.opacity = 0.35;
+    }
     renderer.render(scene, camera);
   } else {
     (function loop() {
