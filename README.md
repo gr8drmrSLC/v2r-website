@@ -78,6 +78,23 @@ anywhere yet, so this widget cannot link to it for real until it does.
 The ten-minute call-cancellation policy lives only on that platform's
 (not-yet-reachable) booking page now, not on this homepage.
 
+**Explore section's Five Disciplines graphic, 2026-09-06/07.** A Three.js
+ring (`assets/tenets.js`, `#tenets-canvas`) sits beside the Explore
+section's interactive objective-clarity widgets, reinforcing the Method
+section's five-step cycle (Understand, Organize, Execute, Learn,
+Improve) that appears earlier on the page. True circle, not a polygon;
+directional arrows plus a traveling light-pulse both run clockwise from
+the top (Understand), matching left-to-right/top-to-bottom reading; the
+monochrome V2ADV wordmark and a section-specific "Vision to Impact"
+micro-tagline sit centered inside the ring. Deliberately carries a
+different meaning from the hero's anchor/satellite node labels
+(fixed-foundation-vs-adaptive-flow) — the founder confirmed comfortable
+with the two graphics not sharing one metaphor. A second, more elaborate
+graphic for the empty space below this ring (an hourglass-shaped
+diagram going deeper into the discovery-to-outcome workflow) was
+scoped 2026-09-07 and is tracked in `TODO.md`, not yet built as of this
+entry.
+
 **The AI Discovery Interview** ("Talk It Through," one of the three
 paths reachable after logging in) is under active build in the separate
 `v2r-platform` repository, not this one — see that repository's own
