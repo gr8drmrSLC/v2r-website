@@ -231,7 +231,7 @@
   function updateRingPulse(t) {
     var colorAttr = ringGeo.attributes.color;
     for (var s = 0; s <= segments; s++) {
-      var local = ((t / lapSeconds + ringFractions[s]) % 1 + 1) % 1;
+      var local = ((ringFractions[s] - t / lapSeconds) % 1 + 1) % 1;
       var pulse = Math.pow(Math.max(0, Math.cos(local * Math.PI * 2)), 5);
       var brightness = 0.16 + pulse * 0.84;
       tmpColor.copy(baseColor).lerp(hotColor, pulse).multiplyScalar(brightness);
