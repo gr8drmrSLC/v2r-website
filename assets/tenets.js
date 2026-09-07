@@ -7,7 +7,7 @@
 
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 0, 5.4);
+  camera.position.set(0, 0, 6.2);
 
   var renderer;
   try {
@@ -25,10 +25,18 @@
   // reference diagram, not ambient decoration, so it stays legible: no
   // continuous rotation (labels would swing through each other), just a
   // fixed, slightly tilted ring.
+  //
+  // Understand starts at the top and the sequence runs clockwise
+  // (top -> right -> bottom -> left -> back to top) to match how people
+  // naturally read left-to-right, top-to-bottom, rather than starting
+  // at the bottom and running counterclockwise.
   var names = ['Understand', 'Organize', 'Execute', 'Learn', 'Improve'];
   var ringRadius = 1.9;
+  function angleForFraction(frac) {
+    return Math.PI / 2 - frac * Math.PI * 2;
+  }
   var basePositions = names.map(function (n, i) {
-    var angle = (i / names.length) * Math.PI * 2 - Math.PI / 2;
+    var angle = angleForFraction(i / names.length);
     return new THREE.Vector3(Math.cos(angle) * ringRadius, Math.sin(angle) * ringRadius, 0);
   });
 
@@ -128,14 +136,13 @@
   // the ring and drive per-vertex color, so a bright "comet" of light
   // can travel continuously around a real curve. Direction of travel
   // (Understand -> Organize -> Execute -> Learn -> Improve -> back to
-  // Understand) matches increasing angle, i.e. counterclockwise here.
-  var startAngle = -Math.PI / 2;
+  // Understand) runs clockwise from the top, matching angleForFraction.
   var segments = 128;
   var ringPositions = new Float32Array((segments + 1) * 3);
   var ringFractions = [];
   for (var s = 0; s <= segments; s++) {
     var frac = s / segments;
-    var ang = startAngle + frac * Math.PI * 2;
+    var ang = angleForFraction(frac);
     ringPositions[s * 3] = Math.cos(ang) * ringRadius;
     ringPositions[s * 3 + 1] = Math.sin(ang) * ringRadius;
     ringPositions[s * 3 + 2] = 0;
@@ -169,14 +176,16 @@
       blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
     });
     var mesh = new THREE.Mesh(geo, mat);
-    var tangent = angle + Math.PI / 2;
+    // Clockwise travel (decreasing angle as fraction increases) means
+    // the forward tangent is angle - 90 deg, not +90.
+    var tangent = angle - Math.PI / 2;
     mesh.position.set(Math.cos(angle) * ringRadius, Math.sin(angle) * ringRadius, 0.01);
     mesh.rotation.z = tangent;
     return mesh;
   }
   for (var ai = 0; ai < names.length; ai++) {
-    var a0 = startAngle + (ai / names.length) * Math.PI * 2;
-    var a1 = startAngle + ((ai + 1) / names.length) * Math.PI * 2;
+    var a0 = angleForFraction(ai / names.length);
+    var a1 = angleForFraction((ai + 1) / names.length);
     group.add(buildArrow((a0 + a1) / 2));
   }
 
