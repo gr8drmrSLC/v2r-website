@@ -535,7 +535,14 @@ main > section:not(.hero) {
 .explore-lead {
   color: rgba(255, 255, 255, 0.72);
   font-size: 17px;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
+}
+
+.explore-instruction {
+  color: var(--pulse);
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0 0 40px;
 }
 
 .explore-widget {
