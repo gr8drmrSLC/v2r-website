@@ -41,7 +41,11 @@
   for (var a = 0; a < anchorCount; a++) {
     anchorIndices.push(basePositions.length);
     basePositions.push(new THREE.Vector3(
-      (Math.random() - 0.5) * 4.4,
+      // Asymmetric on purpose: left bound stays where it was (keeps the
+      // proximity to the headline text), right bound extends further out
+      // to fill the empty space toward the viewport edge. Vertical (Y)
+      // spread is untouched.
+      -2.2 + Math.random() * 5.8,
       (Math.random() - 0.5) * 3.2,
       (Math.random() - 0.5) * 2.6
     ));
