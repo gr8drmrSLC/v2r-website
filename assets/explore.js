@@ -117,10 +117,9 @@
 
     var note = progressNote ? progressNote.value.trim() : '';
     if (note) {
-      var closer = ordered.length
-        ? 'that’s the target the plan above would organize around, not a separate goal to reconcile later.'
-        : 'worth pinning down which capabilities above actually get there, once that becomes clearer.';
-      parts.push('In your own words, six months from now looks like: “' + note + '” — ' + closer);
+      parts.push(ordered.length
+        ? 'The capabilities above only count for something if they actually reach the outcome described above. That’s the real test Discovery applies to the plan, not just whether the work happens.'
+        : 'Whatever the right capabilities turn out to be, they still get measured against the outcome described above, not against activity for its own sake.');
     }
 
     synthesisText.textContent = parts.join(' ');
@@ -132,6 +131,8 @@
   if (checks) {
     checks.addEventListener('change', updateCapabilities);
   }
+  var synthesisBox = document.querySelector('.explore-synthesis');
+
   if (progressNote) {
     try {
       var saved = localStorage.getItem('v2adv_progress_note');
@@ -140,11 +141,25 @@
     progressNote.addEventListener('input', function () {
       try { localStorage.setItem('v2adv_progress_note', progressNote.value); } catch (e) {}
       updateSynthesis();
+      if (progressNoteDone && progressNoteDone.classList.contains('is-saved')) {
+        progressNoteDone.textContent = 'Done';
+        progressNoteDone.classList.remove('is-saved');
+      }
     });
   }
   if (progressNoteDone) {
     progressNoteDone.addEventListener('click', function () {
       progressNote.blur();
+      updateSynthesis();
+      progressNoteDone.textContent = 'Saved';
+      progressNoteDone.classList.add('is-saved');
+      if (synthesisBox) {
+        synthesisBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        synthesisBox.classList.remove('explore-synthesis-pulse');
+        // Force reflow so the animation restarts if it's already mid-pulse.
+        void synthesisBox.offsetWidth;
+        synthesisBox.classList.add('explore-synthesis-pulse');
+      }
     });
   }
 
