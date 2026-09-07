@@ -37,6 +37,7 @@
   var basePositions = [];
   var nodeSizes = [];
   var anchorIndices = [];
+  var anchorWords = ['Mission', 'Vision', 'Values', 'Principles'];
   for (var a = 0; a < anchorCount; a++) {
     anchorIndices.push(basePositions.length);
     basePositions.push(new THREE.Vector3(
@@ -198,8 +199,7 @@
   // A handful of satellite points carry real business-function words --
   // hover near one and it lights up with a label, so the structure reads
   // as "this is all the interconnected parts of my business," not an
-  // abstract cloud. Anchors stay unlabeled -- they represent the
-  // foundation itself, not a specific named activity.
+  // abstract cloud. This is discovery: you find these by exploring.
   var keywords = ['Marketing', 'Sales', 'Analytics', 'Operations', 'Logistics', 'Research', 'Automation', 'Training', 'Content', 'Profit', 'Growth', 'Support'];
   var eligible = satelliteParent.map(function (s) { return s.index; });
   for (var ei2 = eligible.length - 1; ei2 > 0; ei2--) {
@@ -215,6 +215,18 @@
   var tooltipEl = document.createElement('div');
   tooltipEl.style.cssText = 'position:absolute; transform:translate(-50%,-130%); padding:5px 10px; background:rgba(13,32,38,0.92); border:1px solid rgba(34,199,221,0.5); border-radius:6px; color:#dffbff; font-size:12px; font-weight:700; letter-spacing:0.02em; white-space:nowrap; pointer-events:none; opacity:0; transition:opacity 0.12s ease; z-index:3;';
   canvas.parentElement.appendChild(tooltipEl);
+
+  // Anchor labels are the opposite of the satellite tooltip: always on,
+  // not hover-gated. The foundation isn't something you discover by
+  // exploring -- it's just plainly there, known, so the label is a
+  // permanent caption (no box, just glowing text), not a popup.
+  var anchorLabelEls = anchorIndices.map(function (idx, wIdx) {
+    var el = document.createElement('div');
+    el.textContent = anchorWords[wIdx];
+    el.style.cssText = 'position:absolute; transform:translate(-50%,-50%); font-size:11px; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; color:#dffbff; text-shadow:0 0 8px rgba(34,199,221,0.85), 0 0 2px rgba(0,0,0,0.8); white-space:nowrap; pointer-events:none; z-index:3;';
+    canvas.parentElement.appendChild(el);
+    return { el: el, index: idx };
+  });
 
   var mouseX = -9999, mouseY = -9999;
   canvas.parentElement.addEventListener('mousemove', function (ev) {
@@ -268,9 +280,19 @@
     });
   }
 
+  function updateAnchorLabels(w, h) {
+    anchorLabelEls.forEach(function (item) {
+      tmpV.copy(current[item.index]).applyMatrix4(group.matrixWorld).project(camera);
+      item.el.style.left = ((tmpV.x * 0.5 + 0.5) * w) + 'px';
+      item.el.style.top = ((-tmpV.y * 0.5 + 0.5) * h - 18) + 'px';
+      item.el.style.opacity = tmpV.z < 1 ? '1' : '0';
+    });
+  }
+
   function updateHover() {
     group.updateMatrixWorld(true);
     var w = canvas.clientWidth, h = canvas.clientHeight;
+    updateAnchorLabels(w, h);
     var nearest = null, nearestDist = 26;
     keywordPoints.forEach(function (kp) {
       tmpV.copy(current[kp.index]).applyMatrix4(group.matrixWorld).project(camera);
