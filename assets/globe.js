@@ -42,7 +42,7 @@
     var p2 = new THREE.Vector3().fromBufferAttribute(wirePos, e + 1);
     var edgeGeo = new THREE.BufferGeometry().setFromPoints([p1, p2]);
     var edgeMat = new THREE.LineBasicMaterial({
-      color: 0x1f7aff, transparent: true, opacity: 0.2,
+      color: 0x22c7dd, transparent: true, opacity: 0.2,
       blending: THREE.AdditiveBlending, depthWrite: false
     });
     var edgeLine = new THREE.Line(edgeGeo, edgeMat);
@@ -62,10 +62,10 @@
     var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, size / 2);
     g.addColorStop(0, 'rgba(255,255,255,1)');
     g.addColorStop(0.1, 'rgba(255,255,255,1)');
-    g.addColorStop(0.28, 'rgba(130,205,255,0.95)');
-    g.addColorStop(0.5, 'rgba(20,120,255,0.75)');
-    g.addColorStop(0.75, 'rgba(10,60,200,0.3)');
-    g.addColorStop(1, 'rgba(10,60,200,0)');
+    g.addColorStop(0.28, 'rgba(150,230,235,0.95)');
+    g.addColorStop(0.5, 'rgba(34,199,221,0.75)');
+    g.addColorStop(0.75, 'rgba(13,74,84,0.3)');
+    g.addColorStop(1, 'rgba(13,74,84,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, size, size);
 
