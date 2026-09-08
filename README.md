@@ -89,11 +89,34 @@ monochrome V2ADV wordmark and a section-specific "Vision to Impact"
 micro-tagline sit centered inside the ring. Deliberately carries a
 different meaning from the hero's anchor/satellite node labels
 (fixed-foundation-vs-adaptive-flow) — the founder confirmed comfortable
-with the two graphics not sharing one metaphor. A second, more elaborate
-graphic for the empty space below this ring (an hourglass-shaped
-diagram going deeper into the discovery-to-outcome workflow) was
-scoped 2026-09-07 and is tracked in `TODO.md`, not yet built as of this
-entry.
+with the two graphics not sharing one metaphor.
+
+**Explore section's hourglass workflow diagram, 2026-09-07.** A second,
+deeper graphic fills the space below the tenets ring: static SVG + CSS
+(not another Three.js canvas — a linear flow diagram doesn't need 3D,
+and this sidesteps the canvas-resize-race bug class that hit the tenets
+ring twice). Client Objectives narrows through Discovery to one Custom
+Plan (the pinch point — deliberately kept singular, since the point of
+the diagram is many objectives converging into one plan, even though
+every other label is plural), fans into the same four capability
+categories named elsewhere on the page, converges into Implementation,
+then KPI Tracking and Analyze, which branches to either Objectives
+Achieved or Adjust (looping back to Implementation). An animated
+CSS `stroke-dashoffset` keyframe gives the connecting lines a subtle
+flow, respecting `prefers-reduced-motion`. The enlarged monochrome
+V2ADV wordmark sits underneath as a deliberate closing element.
+
+The free-text note field just above these graphics (`assets/explore.js`,
+"what would meaningful progress look like six months from now") is
+worth understanding before touching: no AI call ever reads it. The
+synthesis response used to quote the note back verbatim (rejected by
+the founder as parroting) and treated every non-empty note identically.
+`noteLooksSpecific()` now rewards a note that has a number, a deadline
+word, and enough length (2 of 3 signals) with one extra sentence,
+without ever claiming to understand the content — a zero-cost,
+un-gameable alternative to a real LLM call. Follow this same pattern
+for any future "make it feel smarter" request on this page before
+reaching for a live API.
 
 **The AI Discovery Interview** ("Talk It Through," one of the three
 paths reachable after logging in) is under active build in the separate
