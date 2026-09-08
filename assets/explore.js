@@ -106,6 +106,30 @@
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
+  // No live AI call reads this note -- it never understands what was
+  // typed. What it can honestly measure is the note's *form*: does it
+  // name a number, a deadline, and say enough to be more than a
+  // one-word placeholder. That correlates with real specificity
+  // without ever claiming to grasp meaning, and it can't be gamed into
+  // rewarding nonsense, since gibberish fails these checks too.
+  var timeReferenceWords = [
+    'week', 'weeks', 'month', 'months', 'quarter', 'quarters', 'year', 'years',
+    'q1', 'q2', 'q3', 'q4', 'by', 'within',
+    'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december'
+  ];
+
+  function noteLooksSpecific(text) {
+    var lower = text.toLowerCase();
+    var hasNumber = /\d/.test(text);
+    var hasTimeReference = timeReferenceWords.some(function (word) {
+      return new RegExp('\\b' + word + '\\b').test(lower);
+    });
+    var wordCount = text.split(/\s+/).filter(Boolean).length;
+    var signals = (hasNumber ? 1 : 0) + (hasTimeReference ? 1 : 0) + (wordCount >= 6 ? 1 : 0);
+    return signals >= 2;
+  }
+
   function updateSynthesis() {
     if (!synthesisText) return;
 
@@ -125,9 +149,13 @@
 
     var note = progressNote ? progressNote.value.trim() : '';
     if (note) {
-      parts.push(ordered.length
+      var noteSentence = ordered.length
         ? 'The capabilities above earn their place only by reaching the outcome described above. That’s the standard Discovery holds the plan to.'
-        : 'Whatever the right capabilities turn out to be, they’ll be measured against the outcome described above.');
+        : 'Whatever the right capabilities turn out to be, they’ll be measured against the outcome described above.';
+      if (noteLooksSpecific(note)) {
+        noteSentence += ' A number and a deadline like that is exactly what Discovery can build a real plan against.';
+      }
+      parts.push(noteSentence);
     }
 
     synthesisText.textContent = parts.join(' ');
