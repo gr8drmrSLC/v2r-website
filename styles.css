@@ -475,16 +475,19 @@ main > section:not(.hero) {
 }
 
 .explore-hourglass-logo {
-  margin: 26px auto 0;
-  width: 34%;
-  max-width: 130px;
+  margin: 48px auto 0;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 78%;
+  max-width: 300px;
 }
 
 .explore-hourglass-logo img {
   width: 100%;
   height: auto;
   display: block;
-  opacity: 0.9;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 18px rgba(34, 199, 221, 0.22));
 }
 
 @media (prefers-reduced-motion: reduce) {

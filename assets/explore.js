@@ -126,8 +126,8 @@
     var note = progressNote ? progressNote.value.trim() : '';
     if (note) {
       parts.push(ordered.length
-        ? 'The capabilities above only count for something if they actually reach the outcome described above. That’s the real test Discovery applies to the plan, not just whether the work happens.'
-        : 'Whatever the right capabilities turn out to be, they still get measured against the outcome described above, not against activity for its own sake.');
+        ? 'The capabilities above earn their place only by reaching the outcome described above. That’s the standard Discovery holds the plan to.'
+        : 'Whatever the right capabilities turn out to be, they’ll be measured against the outcome described above.');
     }
 
     synthesisText.textContent = parts.join(' ');
