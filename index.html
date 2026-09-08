@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=10">
   </head>
   <body>
     <header class="site-header" aria-label="Site header">
@@ -154,6 +154,7 @@
               <label class="explore-check"><input type="checkbox" value="automation"><span>Work that is repeated by hand today</span></label>
               <label class="explore-check"><input type="checkbox" value="analytics"><span>Not knowing what is actually working</span></label>
               <label class="explore-check"><input type="checkbox" value="operational"><span>A process that has outgrown how it runs today</span></label>
+              <label class="explore-check"><input type="checkbox" value="other"><span>Something else specific to the situation</span></label>
             </div>
             <p class="explore-result" id="capabilityResult" aria-live="polite">Select what applies to see which capabilities likely matter.</p>
           </div>
@@ -187,7 +188,7 @@
           <div class="explore-hourglass">
             <p class="explore-tenets-label">From Objective to Outcome</p>
             <div class="hourglass-diagram">
-              <svg viewBox="0 0 300 698" role="img" aria-label="Diagram: a client objective narrows into one custom plan, fans out across marketing, automation, research, and operations, converges into implementation, then into KPI tracking. From there it either reaches the objective achieved, or loops through adjustment back to implementation.">
+              <svg viewBox="0 0 300 768" role="img" aria-label="Diagram: a client objective narrows into one custom plan, fans out across marketing, automation, research, and operations, converges into implementation, then into KPI tracking and analysis. From there it either reaches the objective achieved, or loops through adjustment back to implementation.">
                 <defs>
                   <radialGradient id="hgNodeGlow" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stop-color="#eafeff" stop-opacity="1"/>
@@ -235,22 +236,27 @@
                 <circle cx="150" cy="460" r="6" fill="url(#hgNodeGlow)"/>
                 <text x="90" y="464" text-anchor="middle">IMPLEMENTATION</text>
 
-                <path class="hourglass-flow-line" d="M150,460 L150,555"/>
+                <path class="hourglass-flow-line" d="M150,460 L150,550"/>
 
-                <circle cx="150" cy="555" r="5" fill="url(#hgNodeGlow)"/>
-                <text x="90" y="559" text-anchor="middle">KPI TRACKING</text>
+                <circle cx="150" cy="550" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="90" y="554" text-anchor="middle">KPI TRACKING</text>
 
-                <path class="hourglass-flow-line" d="M150,555 L150,650"/>
-                <path class="hourglass-flow-line" d="M150,555 L235,605"/>
+                <path class="hourglass-flow-line" d="M150,550 L150,630"/>
 
-                <circle cx="235" cy="605" r="5" fill="url(#hgNodeGlow)"/>
-                <text x="235" y="591" text-anchor="middle">ADJUST</text>
+                <circle cx="150" cy="630" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="90" y="634" text-anchor="middle">ANALYZE</text>
 
-                <path class="hourglass-loop-line" d="M247,598 C288,562 282,478 168,467" marker-end="url(#hgLoopArrow)"/>
+                <path class="hourglass-flow-line" d="M150,630 L150,720"/>
+                <path class="hourglass-flow-line" d="M150,630 L230,675"/>
 
-                <circle class="hourglass-node-halo hourglass-node-halo-final" cx="150" cy="650" r="18"/>
-                <circle cx="150" cy="650" r="7" fill="#eafeff"/>
-                <text x="150" y="674" text-anchor="middle" class="hourglass-final-label">OBJECTIVE ACHIEVED</text>
+                <circle cx="230" cy="675" r="5" fill="url(#hgNodeGlow)"/>
+                <text x="238" y="658" text-anchor="middle">ADJUST</text>
+
+                <path class="hourglass-loop-line" d="M242,668 C285,632 280,478 168,467" marker-end="url(#hgLoopArrow)"/>
+
+                <circle class="hourglass-node-halo hourglass-node-halo-final" cx="150" cy="720" r="18"/>
+                <circle cx="150" cy="720" r="7" fill="#eafeff"/>
+                <text x="150" y="744" text-anchor="middle" class="hourglass-final-label">OBJECTIVE ACHIEVED</text>
               </svg>
             </div>
             <p class="explore-tenets-caption">Every objective narrows to one custom plan, fans out across the right capabilities, then gets implemented and measured against the baseline set back in Discovery, adjusting until the objective is real.</p>
@@ -312,7 +318,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="assets/globe.js?v=13"></script>
-    <script src="assets/explore.js?v=4"></script>
+    <script src="assets/explore.js?v=5"></script>
     <script src="assets/tenets.js?v=5"></script>
     <script src="assets/entry-widget.js?v=2"></script>
   </body>

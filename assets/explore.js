@@ -57,14 +57,22 @@
 
   function updateCapabilities() {
     if (!checks || !capabilityResult) return;
-    var selected = selectedCapabilityKeys().map(function (key) { return capabilityLabels[key]; });
-    if (!selected.length) {
+    var selectedKeys = selectedCapabilityKeys();
+    var hasOther = selectedKeys.indexOf('other') !== -1;
+    var selected = selectedKeys
+      .filter(function (key) { return key !== 'other'; })
+      .map(function (key) { return capabilityLabels[key]; });
+
+    if (!selected.length && !hasOther) {
       capabilityResult.textContent = 'Select what applies to see which capabilities likely matter.';
+    } else if (!selected.length && hasOther) {
+      capabilityResult.textContent = 'Whatever the real driver is, that’s what the note below is for. Discovery narrows the actual capabilities from there.';
     } else {
       var joined = selected.length === 1
         ? selected[0]
         : selected.slice(0, -1).join(', ') + ', and ' + selected[selected.length - 1];
-      capabilityResult.textContent = 'This points toward ' + joined + ' as a likely part of the engagement. Discovery confirms the actual scope.';
+      var tail = hasOther ? ', alongside whatever else gets captured in the note below,' : '';
+      capabilityResult.textContent = 'This points toward ' + joined + tail + ' as a likely part of the engagement. Discovery confirms the actual scope.';
     }
     updateSynthesis();
   }
